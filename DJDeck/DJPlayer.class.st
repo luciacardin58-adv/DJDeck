@@ -71,6 +71,12 @@ DJPlayer >> cue [
 ^ cue
 ]
 
+{ #category : 'accessing' }
+DJPlayer >> cue: aSampleOffset [
+
+	cue := aSampleOffset 
+]
+
 { #category : 'helpers' }
 DJPlayer >> cueAtSeconds: aNumber [ 
     fileInfo ifNil: [ ^ self inform: 'No fileInfo set' ].
@@ -81,6 +87,11 @@ DJPlayer >> cueAtSeconds: aNumber [
 { #category : 'accessing' }
 DJPlayer >> fileInfo [ 
 ^ fileInfo
+]
+
+{ #category : 'accessing' }
+DJPlayer >> fileInfo: aDJAudioFileInfo [ 
+    fileInfo := aDJAudioFileInfo
 ]
 
 { #category : 'accessing' }

@@ -16,7 +16,7 @@ Collaborators:
 "
 Class {
 	#name : 'DJCueResetter',
-	#superclass : 'Object',
+	#superclass : 'PhResetter',
 	#instVars : [
 		'cue'
 	],
