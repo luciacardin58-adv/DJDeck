@@ -19,7 +19,40 @@ Collaborators:
 "
 Class {
 	#name : 'DJCueReader',
-	#superclass : 'Object',
+	#superclass : 'PhReaderWithSpeed',
+	#instVars : [
+		'cue'
+	],
 	#category : 'DJDeck',
 	#package : 'DJDeck'
 }
+
+{ #category : 'converting' }
+DJCueReader >> asBox [ 
+| sum resetter |
+	resetter := (DJCueResetter new
+		             trigger: self trigger asBox;
+		             cue: self cue asBox;
+		             yourself) asBox.
+	sum := Wire new asBox + self speed.
+	^ resetter ~ sum
+
+
+]
+
+{ #category : 'accessing' }
+DJCueReader >> cue [ 
+^ cue
+]
+
+{ #category : 'accessing' }
+DJCueReader >> cue: aSampleOffset [
+cue := aSampleOffset 
+]
+
+{ #category : 'initialization' }
+DJCueReader >> initialize [ 
+
+super initialize. 
+cue := 0.
+]
