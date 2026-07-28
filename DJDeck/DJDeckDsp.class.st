@@ -25,18 +25,18 @@ Class {
 }
 
 { #category : 'instance creation' }
-DJDeckDsp class >> deck: aSymbol fromPath: aPath [
+DJDeckDsp class >> new [ 
+^ self error: 'Use DJDeckDsp deck: #A fromFilePath: aPath'
+]
+
+{ #category : 'instance creation' }
+DJDeckDsp class >> onDeck: aSymbol fromFilePath: aPath [
 
 	(#( #A #B ) includes: aSymbol) ifFalse: [
 		^ self error: 'deck: must be #A or #B, got ' , aSymbol printString ].
 	^ self basicNew
 		  onDeck: aSymbol fromFilePath: aPath;
 		  yourself
-]
-
-{ #category : 'instance creation' }
-DJDeckDsp class >> new [ 
-^ self error: 'Use DJDeckDsp deck: #A fromFilePath: aPath'
 ]
 
 { #category : 'accessing' }
@@ -67,7 +67,7 @@ DJDeckDsp >> initializeFilters [
 ]
 
 { #category : 'initialization' }
-DJDeckDsp >> initializePlayers [
+DJDeckDsp >> initializePlayer [
 
 player := DJPlayer new pathToFile: filePath ; label: self prefix 
 ]
