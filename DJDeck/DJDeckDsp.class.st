@@ -66,6 +66,12 @@ DJDeckDsp >> initializeFilters [
 	highCut := PhResonHp new.
 ]
 
+{ #category : 'initialization' }
+DJDeckDsp >> initializePlayers [
+
+player := DJPlayer new pathToFile: filePath ; label: self prefix 
+]
+
 { #category : 'accessing' }
 DJDeckDsp >> lowCut [ 
 ^ lowCut 
@@ -86,10 +92,13 @@ DJDeckDsp >> midPeak [
 DJDeckDsp >> onDeck: aSymbol fromFilePath: aFilePath [
 
 	deckId := aSymbol.
-	filePath := aFilePath. 
+	filePath := aFilePath.
 	self initializePlayer.
- 
-    ^ (player => lowShelf => highShelf => midPeak => highCut => lowCut) asDspWithName: self prefix
+	self initializeEQs .
+	self initializeFilters .
+
+	^ player => lowShelf => highShelf => midPeak => highCut => lowCut
+		  asDspWithName: self prefix
 ]
 
 { #category : 'accessing' }
