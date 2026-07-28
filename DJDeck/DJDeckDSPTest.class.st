@@ -13,7 +13,7 @@ Class {
 DJDeckDSPTest >> setUp [
 
 	super setUp.
-	deckDsp := DJDeckDsp onDeck: #A fromFilePath: 'dummyTestPath'
+	deckDsp := DJDeckDsp onDeck: #A fromFilePath:  FileLocator imageDirectory asAbsolute pathString , '/TurboSamples/blip/LAZ_R900.wav'
 ]
 
 { #category : 'tests' }

@@ -128,7 +128,7 @@ DJPlayer >> pathToFile: anAudioFilePath [
 	super pathToFile: anAudioFilePath.
 	fileInfo := DJWavAudioFormat new readInfoFrom:
 		            self pathToFile asFileReference.
-	lengthInframes := fileInfo numberOfSamples.
+	lengthInframes := fileInfo lengthInSamples .
 	fileRate := fileInfo sampleRate
 ]
 
