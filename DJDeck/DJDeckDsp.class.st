@@ -10,15 +10,40 @@ Class {
 	#name : 'DJDeckDsp',
 	#superclass : 'Object',
 	#instVars : [
-		'deckName',
+		'deckId',
 		'lowShelf',
 		'highShelf',
-		'midPeak'
+		'midPeak',
+		'lowCut',
+		'highCut',
+		'player',
+		'filePath'
 	],
 	#category : 'DJDeck-DSP',
 	#package : 'DJDeck',
 	#tag : 'DSP'
 }
+
+{ #category : 'instance creation' }
+DJDeckDsp class >> deck: aSymbol fromPath: aPath [
+
+	(#( #A #B ) includes: aSymbol) ifFalse: [
+		^ self error: 'deck: must be #A or #B, got ' , aSymbol printString ].
+	^ self basicNew
+		  onDeck: aSymbol fromFilePath: aPath;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+DJDeckDsp class >> new [ 
+^ self error: 'Use DJDeckDsp deck: #A fromFilePath: aPath'
+]
+
+{ #category : 'accessing' }
+DJDeckDsp >> highCut [ 
+
+^ highCut 
+]
 
 { #category : 'accessing' }
 DJDeckDsp >> highShelf [ 
@@ -34,6 +59,18 @@ DJDeckDsp >> initializeEQs [
 	midPeak := PhPeakEq new.
 ]
 
+{ #category : 'initialization' }
+DJDeckDsp >> initializeFilters [
+
+	lowCut := PhResonLp new.
+	highCut := PhResonHp new.
+]
+
+{ #category : 'accessing' }
+DJDeckDsp >> lowCut [ 
+^ lowCut 
+]
+
 { #category : 'accessing' }
 DJDeckDsp >> lowShelf [ 
 ^ lowShelf 
@@ -43,4 +80,20 @@ DJDeckDsp >> lowShelf [
 DJDeckDsp >> midPeak [ 
 
 ^ midPeak
+]
+
+{ #category : 'instance creation' }
+DJDeckDsp >> onDeck: aSymbol fromFilePath: aFilePath [
+
+	deckId := aSymbol.
+	filePath := aFilePath. 
+	self initializePlayer.
+ 
+    ^ (player => lowShelf => highShelf => midPeak => highCut => lowCut) asDspWithName: self prefix
+]
+
+{ #category : 'accessing' }
+DJDeckDsp >> prefix [ 
+
+^ 'Deck' , deckId asString
 ]
