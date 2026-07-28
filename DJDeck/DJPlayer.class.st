@@ -31,8 +31,9 @@ Class {
 		'cue',
 		'lengthInFrames'
 	],
-	#category : 'DJDeck',
-	#package : 'DJDeck'
+	#category : 'DJDeck-Player',
+	#package : 'DJDeck',
+	#tag : 'Player'
 }
 
 { #category : 'converting' }
