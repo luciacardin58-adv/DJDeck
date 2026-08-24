@@ -125,10 +125,18 @@ DJPlayer >> lengthInFrames [
 { #category : 'accessing' }
 DJPlayer >> pathToFile: anAudioFilePath [
 
+	| reference format |
 	super pathToFile: anAudioFilePath.
-	fileInfo := DJWavAudioFormat new readInfoFrom:
-		            self pathToFile asFileReference.
-	lengthInframes := fileInfo lengthInSamples .
+	reference := self pathToFile asFileReference.
+	format := DJAudioFormat new formats
+		          detect: [ :fmt | fmt canHandleFile: reference ]
+		          ifNone: [ nil ].
+	format ifNil: [
+		^ self error: 'Unsupported audio format: ' , reference basename ].
+	fileInfo := format readInfoFrom: reference.
+	fileInfo ifNil: [
+		^ self error: 'Could not read: ' , reference basename ].
+	lengthInframes := fileInfo lengthInSamples.
 	fileRate := fileInfo sampleRate
 ]
 

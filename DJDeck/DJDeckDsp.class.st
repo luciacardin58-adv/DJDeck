@@ -35,8 +35,7 @@ DJDeckDsp class >> onDeck: aSymbol fromFilePath: aPath [
 	(#( #A #B ) includes: aSymbol) ifFalse: [
 		^ self error: 'deck: must be #A or #B, got ' , aSymbol printString ].
 	^ self basicNew
-		  onDeck: aSymbol fromFilePath: aPath;
-		  yourself
+		  onDeck: aSymbol fromFilePath: aPath
 ]
 
 { #category : 'accessing' }
