@@ -26,7 +26,6 @@ Class {
 	#instVars : [
 		'speed',
 		'fileInfo',
-		'lengthInframes',
 		'fileRate',
 		'cue',
 		'lengthInFrames'
@@ -102,10 +101,10 @@ DJPlayer >> fileRate [
 ]
 
 { #category : 'initialization' }
-DJPlayer >> initialize [ 
-super initialize.
+DJPlayer >> initialize [
+
+	super initialize.
 	cue := 0.
-	lengthInFrames := 11963520.
 	speed := PhHSlider new
 		         label: self coypuLabel , 'Speed'
 		         init: 0
@@ -113,7 +112,6 @@ super initialize.
 		         max: 8
 		         step: 0.001.
 	index := 0 asConst
-
 ]
 
 { #category : 'accessing' }
@@ -136,7 +134,7 @@ DJPlayer >> pathToFile: anAudioFilePath [
 	fileInfo := format readInfoFrom: reference.
 	fileInfo ifNil: [
 		^ self error: 'Could not read: ' , reference basename ].
-	lengthInframes := fileInfo lengthInSamples.
+	lengthInFrames := fileInfo lengthInSamples.
 	fileRate := fileInfo sampleRate
 ]
 
