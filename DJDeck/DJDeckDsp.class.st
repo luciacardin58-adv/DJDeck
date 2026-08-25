@@ -53,16 +53,17 @@ DJDeckDsp >> highShelf [
 { #category : 'initialization' }
 DJDeckDsp >> initializeEQs [
 
-	lowShelf := PhLowShelf new.
-	highShelf := PhHighShelf new.
-	midPeak := PhPeakEq new.
+	lowShelf := PhLowShelf new label: self prefix , 'Low'.
+	highShelf := PhHighShelf new label: self prefix , 'High'.
+	midPeak := PhPeakEq new label: self prefix , 'Mid'
 ]
 
 { #category : 'initialization' }
 DJDeckDsp >> initializeFilters [
 
-	lowCut := PhResonLp new.
-	highCut := PhResonHp new.
+	lowCut := PhResonLp new label: self prefix , 'HiPass'.
+	highCut := PhResonHp new label: self prefix , 'LowPass'.
+	'LowPass'
 ]
 
 { #category : 'initialization' }
