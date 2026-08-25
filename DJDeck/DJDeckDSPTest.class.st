@@ -52,7 +52,7 @@ DJDeckDSPTest >> testDeckParametersDoNotCollide [
 { #category : 'tests' }
 DJDeckDSPTest >> testPrefix [
 
-self assert: deckDsp prefix equals: 'DeckA'
+	self assert: deckDsp prefix equals: 'DeckA'
 ]
 
 { #category : 'as yet unclassified' }
