@@ -18,7 +18,9 @@ Class {
 		'highCut',
 		'player',
 		'filePath',
-		'dsp'
+		'dsp',
+		'channelGain',
+		'crossfadeGain'
 	],
 	#category : 'DJDeck-DSP',
 	#package : 'DJDeck',
@@ -40,11 +42,34 @@ DJDeck class >> onDeck: aSymbol fromFilePath: aPath [
 		  yourself
 ]
 
+{ #category : 'applying' }
+DJDeck >> applyGain [
+
+	dsp ifNil: [ ^ self ].
+	dsp
+		setValue: channelGain * crossfadeGain
+		parameter: self prefix , 'ULevel'
+]
+
 { #category : 'building' }
 DJDeck >> buildDsp [
 
 	dsp := player => lowShelf => highShelf => midPeak => highCut => lowCut
 		       asDspWithName: self prefix
+]
+
+{ #category : 'accessing' }
+DJDeck >> channelGain: aNumber [
+
+	channelGain := aNumber.
+	self applyGain
+]
+
+{ #category : 'accessing' }
+DJDeck >> crossfadeGain: aNumber [
+
+	crossfadeGain := aNumber.
+	self applyGain
 ]
 
 { #category : 'deleting' }
