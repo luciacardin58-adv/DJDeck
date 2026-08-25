@@ -51,7 +51,7 @@ DJDeck >> applyGain [
 		parameter: self prefix , 'ULevel'
 ]
 
-{ #category : 'building' }
+{ #category : 'playing' }
 DJDeck >> buildDsp [
 
 	dsp := player => lowShelf => highShelf => midPeak => highCut => lowCut
@@ -142,6 +142,17 @@ DJDeck >> onDeck: aSymbol fromFilePath: aFilePath [
 	self initializeEQs.
 	self initializeFilters.
   self buildDsp.
+  self dsp init.
+]
+
+{ #category : 'playing' }
+DJDeck >> pause [ 
+dsp stop.
+]
+
+{ #category : 'playing' }
+DJDeck >> play [ 
+dsp start
 ]
 
 { #category : 'accessing' }
