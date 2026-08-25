@@ -148,11 +148,14 @@ DJDeck >> onDeck: aSymbol fromFilePath: aFilePath [
 
 	deckId := aSymbol.
 	filePath := aFilePath.
+	channelGain := 1.
+	crossfadeGain := 1.
+	isPlaying := false.
 	self initializePlayer.
 	self initializeEQs.
 	self initializeFilters.
-  self buildDsp.
-  self dsp init.
+	self buildDsp.
+	dsp init
 ]
 
 { #category : 'playing' }
