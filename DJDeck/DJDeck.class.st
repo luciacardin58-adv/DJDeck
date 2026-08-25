@@ -7,7 +7,7 @@ Usage:
     DJDeckDsp deck: #a fromPath: '/path/to/track.wav'
 "
 Class {
-	#name : 'DJDeckDsp',
+	#name : 'DJDeck',
 	#superclass : 'Object',
 	#instVars : [
 		'deckId',
@@ -17,7 +17,8 @@ Class {
 		'lowCut',
 		'highCut',
 		'player',
-		'filePath'
+		'filePath',
+		'dsp'
 	],
 	#category : 'DJDeck-DSP',
 	#package : 'DJDeck',
@@ -25,33 +26,52 @@ Class {
 }
 
 { #category : 'instance creation' }
-DJDeckDsp class >> new [ 
+DJDeck class >> new [ 
 ^ self error: 'Use DJDeckDsp deck: #A fromFilePath: aPath'
 ]
 
 { #category : 'instance creation' }
-DJDeckDsp class >> onDeck: aSymbol fromFilePath: aPath [
+DJDeck class >> onDeck: aSymbol fromFilePath: aPath [
 
 	(#( #A #B ) includes: aSymbol) ifFalse: [
-		^ self error: 'deck: must be #A or #B, got ' , aSymbol printString ].
+		^ self error: 'onDeck: must be #A or #B, got ' , aSymbol printString ].
 	^ self basicNew
-		  onDeck: aSymbol fromFilePath: aPath
+		  onDeck: aSymbol fromFilePath: aPath;
+		  yourself
+]
+
+{ #category : 'building' }
+DJDeck >> buildDsp [
+
+	dsp := player => lowShelf => highShelf => midPeak => highCut => lowCut
+		       asDspWithName: self prefix
+]
+
+{ #category : 'deleting' }
+DJDeck >> destroy [
+
+	dsp ifNotNil: [ dsp destroy ]
 ]
 
 { #category : 'accessing' }
-DJDeckDsp >> highCut [ 
+DJDeck >> dsp [ 
+^ dsp
+]
+
+{ #category : 'accessing' }
+DJDeck >> highCut [ 
 
 ^ highCut 
 ]
 
 { #category : 'accessing' }
-DJDeckDsp >> highShelf [ 
+DJDeck >> highShelf [ 
 
 ^ highShelf
 ]
 
 { #category : 'initialization' }
-DJDeckDsp >> initializeEQs [
+DJDeck >> initializeEQs [
 
 	lowShelf := PhLowShelf new label: self prefix , 'Low'.
 	highShelf := PhHighShelf new label: self prefix , 'High'.
@@ -59,7 +79,7 @@ DJDeckDsp >> initializeEQs [
 ]
 
 { #category : 'initialization' }
-DJDeckDsp >> initializeFilters [
+DJDeck >> initializeFilters [
 
 	lowCut := PhResonLp new label: self prefix , 'HiPass'.
 	highCut := PhResonHp new label: self prefix , 'LowPass'.
@@ -67,42 +87,40 @@ DJDeckDsp >> initializeFilters [
 ]
 
 { #category : 'initialization' }
-DJDeckDsp >> initializePlayer [
+DJDeck >> initializePlayer [
 
 player := DJPlayer new pathToFile: filePath ; label: self prefix 
 ]
 
 { #category : 'accessing' }
-DJDeckDsp >> lowCut [ 
+DJDeck >> lowCut [ 
 ^ lowCut 
 ]
 
 { #category : 'accessing' }
-DJDeckDsp >> lowShelf [ 
+DJDeck >> lowShelf [ 
 ^ lowShelf 
 ]
 
 { #category : 'accessing' }
-DJDeckDsp >> midPeak [ 
+DJDeck >> midPeak [ 
 
 ^ midPeak
 ]
 
 { #category : 'instance creation' }
-DJDeckDsp >> onDeck: aSymbol fromFilePath: aFilePath [
+DJDeck >> onDeck: aSymbol fromFilePath: aFilePath [
 
 	deckId := aSymbol.
 	filePath := aFilePath.
 	self initializePlayer.
-	self initializeEQs .
-	self initializeFilters .
-
-	^ player => lowShelf => highShelf => midPeak => highCut => lowCut
-		  asDspWithName: self prefix
+	self initializeEQs.
+	self initializeFilters.
+  self buildDsp.
 ]
 
 { #category : 'accessing' }
-DJDeckDsp >> prefix [ 
+DJDeck >> prefix [ 
 
 ^ 'Deck' , deckId asString
 ]
