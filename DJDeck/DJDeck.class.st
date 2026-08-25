@@ -20,7 +20,8 @@ Class {
 		'filePath',
 		'dsp',
 		'channelGain',
-		'crossfadeGain'
+		'crossfadeGain',
+		'isPlaying'
 	],
 	#category : 'DJDeck-DSP',
 	#package : 'DJDeck',
@@ -93,6 +94,15 @@ DJDeck >> highCut [
 DJDeck >> highShelf [ 
 
 ^ highShelf
+]
+
+{ #category : 'initialization' }
+DJDeck >> initialize [
+
+	super initialize.
+	isPlaying := false.
+	channelGain := 1.
+	crossfadeGain := 1
 ]
 
 { #category : 'initialization' }
