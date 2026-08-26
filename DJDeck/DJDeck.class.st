@@ -145,9 +145,12 @@ DJDeck >> midPeak [
 
 { #category : 'instance creation' }
 DJDeck >> onDeck: aSymbol fromFilePath: aFilePath [
+	"Phausto's createSingleFilesURL sends copyReplaceAll: to pathToFile,
+	 so the sampler needs a String, not a FileReference. Normalise here
+	 and accept either — DJWaveformElement >> fromFilePath: does the same."
 
 	deckId := aSymbol.
-	filePath := aFilePath.
+	filePath := aFilePath asFileReference fullName.
 	channelGain := 1.
 	crossfadeGain := 1.
 	isPlaying := false.
